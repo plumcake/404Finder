@@ -125,7 +125,7 @@ def crawl_and_check_links(base_url):
             print(f"{color}- {link[0]} (Status: {link[1]}), Found on: {link[2]}, Link text: {link[3]}")
 
 if __name__ == "__main__":
-    target_url = input("Enter the base URL to crawl (e.g., https://example.com): ").strip()
+    target_url = input("Enter the base URL to crawl (e.g., https://example.com): NOTE: Please try HTTP if HTTPS shows no results ").strip()
     if not target_url.startswith("http"):
         print("Error: Please provide a full URL starting with http or https.")
     else:
