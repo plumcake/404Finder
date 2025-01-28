@@ -1,2 +1,2 @@
 # 404Finder
-A scanner for broken links with WAF bypass
+A web scanner for broken links with WAF bypass
