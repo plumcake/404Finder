@@ -17,7 +17,7 @@ def check_link(url, source_page, link_text, headers, skip_facebook, broken_links
     """Check if the link is broken."""
     if skip_facebook and "facebook.com" in url:
         return
-    if url.startswith("javascript"):
+    if url.startswith("javascript:"):
         return
 
     try:
@@ -32,7 +32,7 @@ def check_link(url, source_page, link_text, headers, skip_facebook, broken_links
         if not (200 <= status_code < 400):
             broken_links.append((final_url, status_code, source_page, link_text))
             color = Fore.RED if status_code == 404 else Fore.YELLOW
-            print(f"{color}[BROKEN] {final_url} (Status: {status_code})\n    Found on: {source_page}\n    Link text: {link_text}")
+            print(f"{color}[BROKEN] {final_url} (Status: {status_code})\n\t Found on: {source_page}\n\t Link text: {link_text}")
     
     except requests.RequestException:
         pass  # Suppress errors for skipped links or timeouts
@@ -98,8 +98,8 @@ def crawl_and_check_links(base_url):
 
                 if link_domain != base_domain:
                     check_link(full_url, url, link_text, headers, skip_facebook, broken_links)
-                else:
-                    crawl(full_url)
+                elif not href.endswith(('.jpg', '.jpeg', '.png', '.gif', '.svg', '.css', '.js', '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx')) and not href.startswith(('mailto:', 'tel:', '#')): 
+                    crawl(full_url) 
 
         except requests.RequestException:
             pass  # Suppress errors for skipped links or timeouts
@@ -125,7 +125,7 @@ def crawl_and_check_links(base_url):
             print(f"{color}- {link[0]} (Status: {link[1]}), Found on: {link[2]}, Link text: {link[3]}")
 
 if __name__ == "__main__":
-    target_url = input("Enter the base URL to crawl (e.g., https://example.com): NOTE: Please try HTTP if HTTPS shows no results ").strip()
+    target_url = input("Enter the base URL to crawl (e.g., https://example.com), Note - Please try HTTP if HTTPS shows no results: ").strip()
     if not target_url.startswith("http"):
         print("Error: Please provide a full URL starting with http or https.")
     else:
